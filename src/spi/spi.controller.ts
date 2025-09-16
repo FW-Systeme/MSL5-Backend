@@ -8,7 +8,7 @@ export class SpiController {
 
   private readonly logger = new Logger(SpiController.name);
   lastReadAnalogIn: number = 0;
-  analogInInterval = 10*1000;
+  analogInInterval = 15*60*1000;
   lastReadAnalogOut: number = 0;
   analogOutInterval = 10*1000;
 
@@ -27,14 +27,14 @@ export class SpiController {
 
   @EventPattern('SPI:ANALOG_OUT')
   handleSPIAnalogOut(@Payload() data: string) {
-    if (Date.now() - this.analogOutInterval > this.lastReadAnalogOut) {
-      this.lastReadAnalogOut = Date.now();
-      let obj = JSON.parse(data.substring(data.indexOf('{')));
-      this.logger.debug("Received Redis-Data on SPI:ANALOG_OUT", JSON.stringify(obj));
-      this.spiService.saveAnalogIn(obj)
-        .then(r => this.logger.debug(`Saved ANALOG_IN to DB ${JSON.stringify(r)}`))
-        .catch(e => this.logger.error(`Error saving ANALOG_IN to DB ${JSON.stringify(e)}`));
-    }
+    // if (Date.now() - this.analogOutInterval > this.lastReadAnalogOut) {
+    //   this.lastReadAnalogOut = Date.now();
+    //   let obj = JSON.parse(data.substring(data.indexOf('{')));
+    //   this.logger.debug("Received Redis-Data on SPI:ANALOG_OUT", JSON.stringify(obj));
+    //   this.spiService.saveAnalogIn(obj)
+    //     .then(r => this.logger.debug(`Saved ANALOG_IN to DB ${JSON.stringify(r)}`))
+    //     .catch(e => this.logger.error(`Error saving ANALOG_IN to DB ${JSON.stringify(e)}`));
+    // }
   }
 
 

@@ -18,9 +18,8 @@ export class ANALOG_IN {
   @Column(() => Device)
   Device: Device;
 
-  @Column()
-  @OneToMany(() => Entry, (entry) => entry.analogIn,
-    {eager: true, nullable: false})
+  // @Column()
+  @OneToMany(() => Entry, (entry) => entry.analogIn, {eager: true, nullable: false})
   Entries: Entry[];
 }
 
@@ -28,7 +27,6 @@ export class ANALOG_IN {
 export class Entry {
   @PrimaryGeneratedColumn()
   id?: number;
-  @Column()
   @ManyToOne(() => ANALOG_IN, (analogIn) => analogIn.Entries)
   analogIn: ANALOG_IN;
   @Column()

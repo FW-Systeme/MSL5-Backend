@@ -1,11 +1,12 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ANALOG_IN, Entry } from './analog-in.entity';
 import { Repository } from 'typeorm';
+import { timer } from 'rxjs';
 
 
 @Injectable()
-export class SpiService {
+export class SpiService implements OnModuleInit {
   private readonly logger = new Logger(SpiService.name);
 
   constructor(
@@ -14,6 +15,14 @@ export class SpiService {
     @InjectRepository(Entry)
     private entryRepository: Repository<Entry>
   ) {}
+
+  async onModuleInit() {
+    timer(7000).subscribe(async () => {
+      const analogIn = await this.analogInRepository.find();
+      this.logger.debug("Fetching all AnalogIn");
+      this.logger.debug(JSON.stringify(analogIn));
+    })
+  }
 
   async saveAnalogIn(data: ANALOG_IN) {
     const entries: Entry[] = [];
