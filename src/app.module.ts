@@ -14,7 +14,7 @@ import { SpiModule } from './spi/spi.module';
       username: 'root',
       password: 'root',
       database: 'MSL5',
-      // entities: [],
+      entities: [],
       autoLoadEntities: true,
       synchronize: true
     }),

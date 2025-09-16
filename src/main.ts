@@ -7,9 +7,9 @@ import { SpiModule } from './spi/spi.module';
 async function bootstrap() {
   const logger = new Logger(bootstrap.name);
   const app = await NestFactory.create(AppModule);
-  const redis = await NestFactory.createMicroservice(SpiModule, {
+  const redis = await NestFactory.createMicroservice(AppModule, {
     transport: Transport.REDIS,
-    options: { host: 'localhost', port: 6379, wildcards: true }
+    options: { host: 'localhost', port: 6379 }
   });
   redis.useLogger(logger);
   redis.listen().then(_ => logger.debug(`Redis connected`)).catch(e => logger.error(e));
