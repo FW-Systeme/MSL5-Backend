@@ -1,4 +1,4 @@
-import { Controller, Logger } from '@nestjs/common';
+import { Controller, Get, Logger } from '@nestjs/common';
 import { SpiService } from './spi.service';
 import { EventPattern, Payload } from '@nestjs/microservices';
 import type { SPI_MESSAGE } from './spi.model';
@@ -41,6 +41,16 @@ export class SpiController {
         .then(r => this.logger.debug(`Saved ANALOG_IN to DB ${JSON.stringify(r)}`))
         .catch(e => this.logger.error(`Error saving ANALOG_IN to DB ${JSON.stringify(e)}`));
     }
+  }
+
+  @Get('analog-in')
+  async getAnalogIn() {
+    return await this.spiService.getLatestAnalog("IN");
+  }
+
+  @Get('analog-out')
+  async getAnalogOut() {
+    return await this.spiService.getLatestAnalog("OUT");
   }
 
 

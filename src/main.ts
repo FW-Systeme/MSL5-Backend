@@ -7,6 +7,7 @@ import { SpiModule } from './spi/spi.module';
 async function bootstrap() {
   const logger = new Logger(bootstrap.name);
   const app = await NestFactory.create(AppModule);
+  app.enableCors();
   const redis = await NestFactory.createMicroservice(AppModule, {
     transport: Transport.REDIS,
     options: { host: 'localhost', port: 6379 }

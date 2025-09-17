@@ -45,4 +45,11 @@ export class SpiService implements OnModuleInit {
     return await this.analogRepository.findBy({AnalogType: type});
   }
 
+  async getLatestAnalog(type: "IN" | "OUT") {
+    return await this.analogRepository.findOne({
+      where: { AnalogType: type },
+      order: { createdAt: 'DESC' },
+    });
+  }
+
 }
