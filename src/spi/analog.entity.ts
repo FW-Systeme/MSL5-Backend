@@ -8,7 +8,7 @@ export class Device {
 }
 
 @Entity()
-export class ANALOG_IN {
+export class ANALOG {
   @PrimaryGeneratedColumn()
   id?: number;
 
@@ -18,17 +18,19 @@ export class ANALOG_IN {
   @Column(() => Device)
   Device: Device;
 
-  // @Column()
   @OneToMany(() => Entry, (entry) => entry.analogIn, {eager: true, nullable: false})
   Entries: Entry[];
+
+  @Column()
+  AnalogType: "IN" | "OUT";
 }
 
 @Entity()
 export class Entry {
   @PrimaryGeneratedColumn()
   id?: number;
-  @ManyToOne(() => ANALOG_IN, (analogIn) => analogIn.Entries)
-  analogIn: ANALOG_IN;
+  @ManyToOne(() => ANALOG, (analog) => analog.Entries)
+  analogIn: ANALOG;
   @Column()
   Number: number;
   @Column()

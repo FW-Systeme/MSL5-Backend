@@ -1,6 +1,6 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ANALOG_IN, Entry } from './analog-in.entity';
+import { ANALOG, Entry } from './analog.entity';
 import { Repository } from 'typeorm';
 import { timer } from 'rxjs';
 
@@ -10,21 +10,26 @@ export class SpiService implements OnModuleInit {
   private readonly logger = new Logger(SpiService.name);
 
   constructor(
-    @InjectRepository(ANALOG_IN)
-    private analogInRepository: Repository<ANALOG_IN>,
+    @InjectRepository(ANALOG)
+    private analogRepository: Repository<ANALOG>,
     @InjectRepository(Entry)
     private entryRepository: Repository<Entry>
   ) {}
 
   async onModuleInit() {
     timer(7000).subscribe(async () => {
-      const analogIn = await this.analogInRepository.find();
+      const analogIn = await this.findAnalog("IN");
       this.logger.debug("Fetching all AnalogIn");
       this.logger.debug(JSON.stringify(analogIn));
+      timer(3000).subscribe(async () => {
+        const analogOut = await this.findAnalog("OUT");
+        this.logger.debug("Fetching AnalogOut");
+        this.logger.debug(JSON.stringify(analogOut));
+      })
     })
   }
 
-  async saveAnalogIn(data: ANALOG_IN) {
+  async saveAnalog(data: ANALOG) {
     const entries: Entry[] = [];
     for (let entry of data.Entries) {
       let newEntry = new Entry();
@@ -33,7 +38,11 @@ export class SpiService implements OnModuleInit {
       entries.push(newEntry);
     }
     data.Entries = entries;
-    return await this.analogInRepository.save(data);
+    return await this.analogRepository.save(data);
+  }
+
+  async findAnalog(type: "IN" | "OUT") {
+    return await this.analogRepository.findBy({AnalogType: type});
   }
 
 }

@@ -3,7 +3,7 @@ import { SpiService } from './spi.service';
 import { SpiController } from './spi.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ANALOG_IN, Entry } from './analog-in.entity';
+import { ANALOG, Entry } from './analog.entity';
 
 @Module({
   imports: [
@@ -12,7 +12,7 @@ import { ANALOG_IN, Entry } from './analog-in.entity';
         host: 'localhost', port: 6379
       }}
     ]),
-    TypeOrmModule.forFeature([ANALOG_IN, Entry])
+    TypeOrmModule.forFeature([ANALOG, Entry])
   ],
   controllers: [SpiController],
   providers: [SpiService],
