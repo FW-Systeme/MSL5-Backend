@@ -1,4 +1,5 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { DateUtils } from "typeorm/util/DateUtils.js";
 
 export class Device {
   @Column({nullable: true})
@@ -18,19 +19,22 @@ export class ANALOG {
   @Column(() => Device)
   Device: Device;
 
-  @OneToMany(() => Entry, (entry) => entry.analogIn, {eager: true, nullable: false})
+  @OneToMany(() => Entry, (entry) => entry.analog, {eager: true, nullable: false})
   Entries: Entry[];
 
   @Column()
   AnalogType: "IN" | "OUT";
+
+  @CreateDateColumn()
+  createdAt: Date;
 }
 
 @Entity()
 export class Entry {
   @PrimaryGeneratedColumn()
   id?: number;
-  @ManyToOne(() => ANALOG, (analog) => analog.Entries)
-  analogIn: ANALOG;
+  @ManyToOne(() => ANALOG, (analog) => analog.Entries, {nullable: false})
+  analog: ANALOG;
   @Column()
   Number: number;
   @Column()
