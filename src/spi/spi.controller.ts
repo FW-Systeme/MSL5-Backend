@@ -1,7 +1,6 @@
 import { Controller, Get, Logger } from '@nestjs/common';
 import { SpiService } from './spi.service';
 import { EventPattern, Payload } from '@nestjs/microservices';
-import type { SPI_MESSAGE } from './spi.model';
 import { ANALOG } from './analog.entity';
 
 @Controller('spi')

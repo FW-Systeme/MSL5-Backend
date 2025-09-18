@@ -33,7 +33,7 @@ export class ANALOG {
 export class Entry {
   @PrimaryGeneratedColumn()
   id?: number;
-  @ManyToOne(() => ANALOG, (analog) => analog.Entries, {nullable: false})
+  @ManyToOne(() => ANALOG, (analog) => analog.Entries)
   analog: ANALOG;
   @Column()
   Number: number;
