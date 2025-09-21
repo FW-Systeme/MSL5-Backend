@@ -1,5 +1,4 @@
 import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { DateUtils } from "typeorm/util/DateUtils.js";
 
 export class Device {
   @Column({nullable: true})

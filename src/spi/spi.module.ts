@@ -9,7 +9,7 @@ import { ANALOG, Entry } from './analog.entity';
   imports: [
     ClientsModule.register([
       { name: 'REDIS_SPI_SERVICE', transport: Transport.REDIS, options: {
-        host: 'localhost', port: 6379
+        host: '192.168.3.36', port: 6379
       }}
     ]),
     TypeOrmModule.forFeature([ANALOG, Entry])

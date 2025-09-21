@@ -13,17 +13,19 @@ export class SpiService implements OnModuleInit {
     @InjectRepository(ANALOG)
     private analogRepository: Repository<ANALOG>,
     @InjectRepository(Entry)
-    private entryRepository: Repository<Entry>
+    private entryRepository: Repository<Entry>,
   ) {}
 
   async onModuleInit() {
     timer(7000).subscribe(async () => {
-      const analogIn = await this.findAnalog("IN");
-      this.logger.debug("Fetching all AnalogIn");
+      const analogInData = await this.findAnalog("IN");
+      const analogIn = analogInData[analogInData.length - 1];
+      this.logger.debug("Fetching last AnalogIn");
       this.logger.debug(JSON.stringify(analogIn));
       timer(3000).subscribe(async () => {
-        const analogOut = await this.findAnalog("OUT");
-        this.logger.debug("Fetching AnalogOut");
+        const analogOutData = await this.findAnalog("OUT");
+        const analogOut = analogOutData[analogOutData.length - 1];
+        this.logger.debug("Fetching last AnalogOut");
         this.logger.debug(JSON.stringify(analogOut));
       })
     })
