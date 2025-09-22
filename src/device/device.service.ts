@@ -23,12 +23,11 @@ export class DeviceService implements OnApplicationBootstrap {
       this.logger.debug('No device found, creating one from config');
       await this.makeFirstDevice(ownData);
     }
-  } 
+  }
 
   async getDeviceData() {
     return (await this.deviceRepository.find())[0];
   }
-
 
   async makeFirstDevice(data: Device){
     let device = await this.deviceRepository.find();
@@ -41,4 +40,9 @@ export class DeviceService implements OnApplicationBootstrap {
     }
   }
 
+  async updateDeviceData(data: Device) {
+    let update = await this.deviceRepository.update(1, data);
+    this.logger.debug(`Updated Device: ${JSON.stringify(update)}`);
+    return await this.deviceRepository.findOne({ where: { id: 1 } });
+  }
 }

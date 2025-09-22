@@ -1,6 +1,6 @@
-import { Controller, Get, Logger } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Post } from '@nestjs/common';
 import { DeviceService } from './device.service';
-import { EventPattern, Payload } from '@nestjs/microservices';
+import { Device } from './device.entity';
 
 @Controller('device')
 export class DeviceController {
@@ -13,5 +13,9 @@ export class DeviceController {
     return await this.deviceService.getDeviceData();
   }
 
+  @Post()
+  async updateDeviceData(@Body() device: Device) {
+    return await this.deviceService.updateDeviceData(device);
+  }
   
 }
