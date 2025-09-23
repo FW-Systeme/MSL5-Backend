@@ -6,11 +6,9 @@ export class Device {
   Chip: number;
 }
 
-export class Entry {
+export class Value {
   val: number;
   time: number;
-  type: SPI_TYPE;
-  unit: string;
 }
 
 export enum SPI_TYPE {
@@ -33,11 +31,32 @@ export class Analog {
   @Prop({type: String, enum: ["IN", "OUT"]})
   analogType: "IN" | "OUT";
 
-  @Prop({type: [Entry], default: []})
-  entries: Entry[];
+  @Prop({type: [Value], default: []})
+  values: Value[];
 
   @Prop({type: Date, default: new Date()})
   createdAt: Date;
+
+  @Prop(Number)
+  number: number;
+
+  @Prop({type: String, enum: SPI_TYPE})
+  spiType: SPI_TYPE;
+
+  @Prop(String)
+  unit: string;
+
+  @Prop({type: Boolean, default: false})
+  isLogging: boolean;
+
+  @Prop({type: Number})
+  lowerBound: number;
+
+  @Prop({type: Number})
+  upperBound: number;
+
+  @Prop({type: Number})
+  factor: number;
 }
 
 // export type SPI_TYPE = "0-10V" | "0.4-2V" | "0-20mA" | "4-20mA";

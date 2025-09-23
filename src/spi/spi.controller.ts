@@ -34,7 +34,7 @@ export class SpiController implements OnModuleInit {
       this.logger.debug("Received Redis-Data on SPI:ANALOG_IN", JSON.stringify(obj));
       let analogData = this.spiService.convertAnalogData(obj, "IN");
       let saved = await this.spiService.saveAnalog(analogData);
-      this.logger.debug(`Saved Analog data ${JSON.stringify(saved)}`);
+      // this.logger.debug(`Saved Analog data ${JSON.stringify(saved)}`);
     }
   }
 
@@ -46,7 +46,7 @@ export class SpiController implements OnModuleInit {
       this.logger.debug("Received Redis-Data on SPI:ANALOG_OUT", JSON.stringify(obj));
       let analogData = this.spiService.convertAnalogData(obj, "OUT");
       let saved = await this.spiService.saveAnalog(analogData);
-      this.logger.debug(`Saved Analog data ${JSON.stringify(saved)}`);
+      // this.logger.debug(`Saved Analog data ${JSON.stringify(saved)}`);
     }
   }
 
