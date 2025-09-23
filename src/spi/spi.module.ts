@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { SpiService } from './spi.service';
 import { SpiController } from './spi.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ANALOG, Entry } from './analog.entity';
+import { MongooseModule } from '@nestjs/mongoose';
+import { Analog, AnalogSchema } from './analog.schema';
 
 @Module({
   imports: [
@@ -12,7 +12,9 @@ import { ANALOG, Entry } from './analog.entity';
         host: '192.168.3.36', port: 6379
       }}
     ]),
-    TypeOrmModule.forFeature([ANALOG, Entry])
+    MongooseModule.forFeature([
+      {name: Analog.name, schema: AnalogSchema}
+    ])
   ],
   controllers: [SpiController],
   providers: [SpiService],

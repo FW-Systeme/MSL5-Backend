@@ -1,37 +1,37 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+// import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity()
+// @Entity()
 export class Device {
-  @PrimaryGeneratedColumn()
-  id?: number;
+  // @PrimaryGeneratedColumn()
+  // id?: number;
 
-  @Column()
-  name: string;
+  // @Column()
+  // name: string;
 
-  @Column()
-  description: string;
+  // @Column()
+  // description: string;
 
-  @CreateDateColumn()
-  createdAt: Date;
+  // @CreateDateColumn()
+  // createdAt: Date;
 
-  @Column()
-  object: string;
+  // @Column()
+  // object: string;
 
-  @Column()
-  isActive: boolean;
+  // @Column()
+  // isActive: boolean;
 
-  @Column()
-  manufacturer: string;
+  // @Column()
+  // manufacturer: string;
 
-  @Column()
-  postalcode: string;
+  // @Column()
+  // postalcode: string;
 
-  @Column()
-  city: string;
+  // @Column()
+  // city: string;
 
-  @Column()
-  street: string;
+  // @Column()
+  // street: string;
 
-  @Column()
-  period: number;
+  // @Column()
+  // period: number;
 }
