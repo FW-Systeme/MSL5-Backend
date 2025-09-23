@@ -1,7 +1,7 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { timer } from 'rxjs';
-import { Analog } from './analog.schema';
+import { Analog, ANALOG_DATA, Entry, SPI_TYPE } from './analog.schema';
 import { Model } from 'mongoose';
 
 
@@ -40,6 +40,25 @@ export class SpiService implements OnModuleInit {
 
   async findAnalog(type: "IN" | "OUT") {
     return await this.analogModel.findOne({analogType: type});
+  }
+
+  convertAnalogData(data: ANALOG_DATA, type: "IN" | "OUT"): Analog {
+    let entries: Entry[] = [];
+    for (let entry of data.Entries) {
+      entries.push({
+        val: entry.Value,
+        time: Date.now(),
+        type: entry.Type,
+        unit: entry.Unit
+      })
+    }
+    return {
+      device: data.Device,
+      analogType: type,
+      entries: entries,
+      type: data.Type,
+      createdAt: new Date()
+    }
   }
 
   // async getLatestAnalog(type: "IN" | "OUT") {

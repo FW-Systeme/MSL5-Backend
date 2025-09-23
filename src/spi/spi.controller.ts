@@ -1,7 +1,7 @@
 import { Controller, Get, Logger, OnModuleInit } from '@nestjs/common';
 import { SpiService } from './spi.service';
 import { EventPattern, Payload } from '@nestjs/microservices';
-import { Analog } from './analog.schema';
+import { Analog, ANALOG_DATA } from './analog.schema';
 
 @Controller('spi')
 export class SpiController implements OnModuleInit {
@@ -27,22 +27,26 @@ export class SpiController implements OnModuleInit {
   }
 
   @EventPattern('SPI:ANALOG_IN')
-  handleSPIAnalogIn(@Payload()data: string) {
+  async handleSPIAnalogIn(@Payload()data: string) {
     if (Date.now() - this.analogInInterval > this.lastReadAnalogIn) {
       this.lastReadAnalogIn = Date.now();
-      let obj: Analog = JSON.parse(data.substring(data.indexOf('{')));
-      obj.analogType = "IN";
+      let obj: ANALOG_DATA = JSON.parse(data.substring(data.indexOf('{')));
       this.logger.debug("Received Redis-Data on SPI:ANALOG_IN", JSON.stringify(obj));
+      let analogData = this.spiService.convertAnalogData(obj, "IN");
+      let saved = await this.spiService.saveAnalog(analogData);
+      this.logger.debug(`Saved Analog data ${JSON.stringify(saved)}`);
     }
   }
 
   @EventPattern('SPI:ANALOG_OUT')
-  handleSPIAnalogOut(@Payload() data: string) {
+  async handleSPIAnalogOut(@Payload() data: string) {
     if (Date.now() - this.analogOutInterval > this.lastReadAnalogOut) {
       this.lastReadAnalogOut = Date.now();
-      let obj: Analog = JSON.parse(data.substring(data.indexOf('{')));
-      obj.analogType = "OUT";
+      let obj: ANALOG_DATA = JSON.parse(data.substring(data.indexOf('{')));
       this.logger.debug("Received Redis-Data on SPI:ANALOG_OUT", JSON.stringify(obj));
+      let analogData = this.spiService.convertAnalogData(obj, "OUT");
+      let saved = await this.spiService.saveAnalog(analogData);
+      this.logger.debug(`Saved Analog data ${JSON.stringify(saved)}`);
     }
   }
 

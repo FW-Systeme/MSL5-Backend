@@ -9,6 +9,8 @@ export class Device {
 export class Entry {
   val: number;
   time: number;
+  type: SPI_TYPE;
+  unit: string;
 }
 
 export enum SPI_TYPE {
@@ -25,8 +27,8 @@ export class Analog {
   @Prop({type: Device})
   device: Device;
 
-  @Prop({type: String, enum: SPI_TYPE})
-  spiType: SPI_TYPE;
+  @Prop({type: String})
+  type: string;
 
   @Prop({type: String, enum: ["IN", "OUT"]})
   analogType: "IN" | "OUT";
@@ -43,6 +45,21 @@ export class Analog {
 export const AnalogSchema = SchemaFactory.createForClass(Analog);
 export type AnalogDocument = Analog & Document;
 
-export interface ANALOG {
+export interface ENTRY {
+  Number: number;
+  AnalogValue: number;
+  Factor: number;
+  Value: number;
+  LowerBound: number;
+  UpperBound: number;
+  Unit: string;
+  Type: SPI_TYPE;
+  IsLogging: boolean;
+}
 
+export interface ANALOG_DATA {
+  Type: string;
+  Device: Device;
+  Entries: ENTRY[];
+  analogType: "IN" | "OUT";
 }
