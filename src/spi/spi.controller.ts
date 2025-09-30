@@ -50,14 +50,14 @@ export class SpiController implements OnModuleInit {
     }
   }
 
-  // @Get('analog-in')
-  // async getAnalogIn() {
-  //   return await this.spiService.getLatestAnalog("IN");
-  // }
+  @Get('analog-in')
+  async getAnalogIn() {
+    return await this.spiService.getAnalog("IN");
+  }
 
-  // @Get('analog-out')
-  // async getAnalogOut() {
-  //   return await this.spiService.getLatestAnalog("OUT");
-  // }
+  @Get('analog-out')
+  async getAnalogOut() {
+    return await this.spiService.getAnalog("OUT");
+  }
 
 }

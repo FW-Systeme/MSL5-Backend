@@ -22,6 +22,9 @@ export enum SPI_TYPE {
 export class Analog {
   _id?: ObjectId;
 
+  @Prop(String)
+  name: string;
+
   @Prop({type: Device})
   device: Device;
 
@@ -34,7 +37,7 @@ export class Analog {
   @Prop({type: [Value], default: []})
   values: Value[];
 
-  @Prop({type: Date, default: new Date()})
+  @Prop({type: Date, default: () => new Date()})
   createdAt: Date;
 
   @Prop(Number)

@@ -32,7 +32,8 @@ export class SpiService implements OnModuleInit {
     for (let analog of data) {
       const existing = await this.analogModel.findOne({ analogType: analog.analogType, number: analog.number });
       if (existing) {
-        existing.values.concat(analog.values);
+        existing.values = existing.values.concat(analog.values);
+        existing.name = analog.name;
         await existing.save();
         this.logger.debug(`Updated existing Analog entry: ${JSON.stringify(existing)}`);
         saved.push(existing);
@@ -64,6 +65,7 @@ export class SpiService implements OnModuleInit {
         time: Date.now()
       };
       const analog: Analog = {
+        name: "Analog " + type.charAt(0).toUpperCase() + type.slice(1).toLowerCase() + " " + (entry.Number + 1),
         number: entry.Number,
         spiType: entry.Type as SPI_TYPE,
         unit: entry.Unit,
@@ -83,11 +85,11 @@ export class SpiService implements OnModuleInit {
     return analogs;
   }
 
-  // async getLatestAnalog(type: "IN" | "OUT") {
-  //   return await this.analogRepository.findOne({
-  //     where: { AnalogType: type },
-  //     order: { createdAt: 'DESC' },
-  //   });
-  // }
+  async getAnalog(type: "IN" | "OUT"): Promise<Analog[]> {
+    return await this.analogModel.aggregate([
+      { $match: { analogType: type } },
+      { $addFields: { values: { $slice: ["$values", -1] }}},
+    ]);
+  }
 
 }
